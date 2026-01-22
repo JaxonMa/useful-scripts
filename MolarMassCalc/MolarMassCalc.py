@@ -39,6 +39,12 @@ def calculate_molar_mass(compound_formula: str) -> float:
 
 
 def parse_chemical_formula(formula: str) -> dict[str, int]:
+    """Parse the chemicla formula of compound
+
+    :param formula: chemical formula to be parsed
+
+    :return: a dict containing all elements in the formula and its subscript
+    """
     composition = {}
 
     element = ""
@@ -55,7 +61,7 @@ def parse_chemical_formula(formula: str) -> dict[str, int]:
                 subscript = ""
         elif char.islower():
             element = element + char
-            if next_char is None:
+            if next_char is None or next_char.isupper():
                 composition[element] = 1
                 element = ""
                 subscript = ""
