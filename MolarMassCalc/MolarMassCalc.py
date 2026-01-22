@@ -40,68 +40,44 @@ def calculate_molar_mass(compound_formula: str) -> float:
 
 def parse_chemical_formula(formula: str) -> dict[str, int]:
     composition = {}
+
+    element = ""
+    subscript = ""
     for i in range(len(formula)):
-        char_1 = formula[i]
-        char_2 = formula[i + 1]
+        char = formula[i]
+        next_char = formula[i + 1] if i < len(formula) - 1 else None
 
-        element = ""
-        num = 0
+        if char.isupper():
+            element = element + char
+            if next_char is None:
+                composition[element] = 1
+                element = ""
+                subscript = ""
+        elif char.islower():
+            element = element + char
+            if next_char is None:
+                composition[element] = 1
+                element = ""
+                subscript = ""
 
-        if char_1.isupper():
-            # Valid beginning of a element symbol
-            if char_2.isalpha():
-                if char_2.islower():
-                    # char_1 + char_2 is a symbol of an element, get its subscirpt in follow-up loops
-                    element = char_1 + char_2
-                    composition[element] = num
+        elif char.isdigit():
+            subscript = subscript + char
 
-                elif char_2.isupper():
-                    # char_2 is another elemnt, and its subscript is 1
-                    element = char_1
-                    composition[element] = 1
-
-                elif char_2.isdigit():
-                    # char_2 is a subscript
-                    index_of_last_num = i
-                    for j in range(i, len(formula)):
-                        # Get all subscript of the element parsed before
-                        next_char = get_next_num(j, formula)
-                        if next_char is None:
-                            break
-                        else:
-                            index_of_last_num = j
-                    num = formula[i : index_of_last_num + 1]
-                    last_key = list(composition)
-                    composition[last_key] = num
-
+            if next_char is not None:
+                if next_char.isdigit():
+                    continue
+                elif next_char.isalpha():
+                    composition[element] = int(subscript)
+                    element = ""
+                    subscript = ""
                 else:
                     raise Exception("Invalid chemical formula, please recheck.")
-
-        elif char_1.islower():
-            # char_1 is part of a element symbol, it should be parsed in the last loop
-            continue
-        elif char_1.isdigit():
-            # char_1 is part of a subscript, it should be parsed in loops before
-            continue
-        else:
-            raise Exception("Invalid chemical formula, please recheck.")
+            else:
+                composition[element] = int(subscript)
+                element = ""
+                subscript = ""
 
     return composition
-
-
-def get_next_num(i: int, string: str) -> int | None:
-    """Get the next number according to the index given of the string
-
-    @param: i: index of the string
-    @param: string: target string to be analysed
-    """
-    if len(string) == 0 or len(string) == i:
-        return None
-
-    if string[i + 1].isdigit():
-        return int(string[i + 1])
-    else:
-        return None
 
 
 if __name__ == "__main__":
