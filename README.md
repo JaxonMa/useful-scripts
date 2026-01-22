@@ -1,9 +1,11 @@
 # useful-scripts
 *Script collection for daily productivity*
 
-This repositry includes scripts I wrote for better productivity, to free me from board tasks, or just for fun. Feel free to use them or adapt your own version of these scripts, I hope you find useful with them :)
+This repository includes scripts I wrote for better productivity, to free me from board tasks, or just for fun. Feel free to use them or adapt your own version of these scripts, I hope you find them useful :)
 
 I'd like to receive your feedback or pull request, together we can make these scripts more convenient to use.
+
+> This is a beginner's project, it may include improper code style or ineffcient code.
 
 ## Contents
 - [Molar Mass Calculator](###molar-mass-calculator)
